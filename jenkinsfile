@@ -1,6 +1,6 @@
 node('built-in')
 {
-    stage('ContinuousDownload') 
+     stage('ContinuousDownload') 
     {
         git 'https://github.com/ravi250595/mymaven.git'
     }
