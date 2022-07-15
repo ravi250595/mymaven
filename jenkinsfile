@@ -1,34 +1,25 @@
 node('built-in')
 {
-     stage('ContinuousDownload') 
+    stage('continuousdownload')
     {
         git 'https://github.com/ravi250595/mymaven.git'
     }
-     stage('ContinuousBuild') 
+    stage('continuousbuild')
     {
         sh 'mvn package'
     }
-     stage('ContinuousDeployment') 
+    stage('continuousdeployment')
     {
-        deploy adapters: [tomcat9(credentialsId: '15fb7bb3-be98-4576-bc7d-1138fe1ec4ff', path: '', url: 'http://172.31.2.111:8080')], contextPath: 'testapp', war: '**/*.war'
+        deploy adapters: [tomcat9(credentialsId: '0dc2df09-1b75-4db3-b7ac-e537a01f4614', path: '', url: 'http://172.31.6.245:8080')], contextPath: 'testapp', war: '**/*.war'
     }
-     stage('ContinuousTesting')
+    stage('continuoustesting')
     {
-        git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+        git 'https://github.com/ravi250595/functionaltesting.git'
         
-        sh 'java -jar /root/.jenkins/workspace/pipeline1/testing.jar'
-    } 
-     stage('Continuousdelivery')
-    {
-        input message: 'need for approval', submitter: 'surya'
-        deploy adapters: [tomcat9(credentialsId: '15fb7bb3-be98-4576-bc7d-1138fe1ec4ff', path: '', url: 'http://172.31.8.46:8080')], contextPath: 'prodapp', war: '**/*.war'
+        sh 'java -jar /home/ubuntu/.jenkins/workspace/scriptedpipeline/testing.jar'
     }
-    
-    
-    
-    
-    
-    
-    
-    
+    stage('continuousdelivery')
+    {
+         deploy adapters: [tomcat9(credentialsId: '0dc2df09-1b75-4db3-b7ac-e537a01f4614', path: '', url: 'http://172.31.10.14:8080')], contextPath: 'prodapp', war: '**/*.war'
+    }
 }
