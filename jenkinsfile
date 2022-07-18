@@ -1,24 +1,24 @@
 node('built-in')
 {
-    stage('continuousdownload')
+    stage('continuousdownload_master')
     {
         git 'https://github.com/ravi250595/mymaven.git'
     }
-    stage('continuousbuild')
+    stage('continuousbuild_master')
     {
         sh 'mvn package'
     }
-    stage('continuousdeployment')
+    stage('continuousdeployment_master')
     {
         deploy adapters: [tomcat9(credentialsId: '0dc2df09-1b75-4db3-b7ac-e537a01f4614', path: '', url: 'http://172.31.6.245:8080')], contextPath: 'testapp', war: '**/*.war'
     }
-    stage('continuoustesting')
+    stage('continuoustesting_master')
     {
         git 'https://github.com/ravi250595/functionaltesting.git'
         
         sh 'java -jar /home/ubuntu/.jenkins/workspace/scriptedpipeline/testing.jar'
     }
-    stage('continuousdelivery')
+    stage('continuousdelivery_master')
     {
          deploy adapters: [tomcat9(credentialsId: '0dc2df09-1b75-4db3-b7ac-e537a01f4614', path: '', url: 'http://172.31.10.14:8080')], contextPath: 'prodapp', war: '**/*.war'
     }
